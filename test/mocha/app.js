@@ -1,9 +1,9 @@
 const assert = chai.assert;
 const config = {
-	apiKey: "AIzaSyBO0PrIE5lHRr483LlQHK4sVPCVK6ZvSYY",
-	authDomain: "foobar-83148.firebaseapp.com",
-	databaseURL: "https://foobar-83148.firebaseio.com",
-	storageBucket: "foobar-83148.appspot.com"
+	apiKey: "<API-KEY>",
+	authDomain: "<PROJECT.ID>.firebaseapp.com",
+	databaseURL: "https://<PROJECT.ID>.firebaseio.com",
+	storageBucket: "<PROJECT.ID>.appspot.com"
 };
 
 import * as firebase from 'firebase';
