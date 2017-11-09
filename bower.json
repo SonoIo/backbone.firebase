@@ -1,0 +1,25 @@
+{
+  "name": "backbone.firebase",
+  "description": "Connect Firebase 4 with Backbone.js",
+  "main": "index.js",
+  "authors": [
+    "Matteo Baggio",
+    "Michele Belluco"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "firebase",
+    "backbone"
+  ],
+  "homepage": "https://github.com/SonoIo/backbone.firebase",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "^1.3.3"
+  }
+}

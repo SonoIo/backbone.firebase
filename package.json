@@ -1,0 +1,28 @@
+{
+  "name": "backbone.firebase",
+  "version": "1.0.0",
+  "description": "Connect Firebase 4 with Backbone.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SonoIo/backbone.firebase.git"
+  },
+  "keywords": [
+    "firebase",
+    "backbone"
+  ],
+  "author": "Matteo Baggio & Michele Belluco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SonoIo/backbone.firebase/issues"
+  },
+  "homepage": "https://github.com/SonoIo/backbone.firebase#readme",
+  "eve-language": "es6",
+  "eve-version": "2.0.0",
+  "devDependencies": {
+    "node-eve": "^2.4.0"
+  }
+}

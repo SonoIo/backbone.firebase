@@ -1,0 +1,62 @@
+{
+  "attachments" : {
+    "m1" : {
+      "a1" : {
+        "id" : "a1",
+        "messageId" : "m1",
+        "url" : "attachment.zip"
+      },
+      "a2" : {
+        "id" : "a2",
+        "messageId" : "m1",
+        "url" : "attachment.zip"
+      }
+    },
+	"m2" : {
+      "a3" : {
+        "id" : "a3",
+        "messageId" : "m2",
+        "url" : "attachment.zip"
+      },
+      "a4" : {
+        "id" : "a4",
+        "messageId" : "m2",
+        "url" : "attachment.zip"
+      }
+    }
+  },
+  "messages" : {
+    "m1" : {
+      "id" : "m1",
+      "message" : "Fooooo",
+      "sender" : "Matteo"
+    },
+    "m2" : {
+      "id" : "m2",
+      "message" : "Fooooooooo",
+      "sender" : "Michele"
+    },
+    "m3" : {
+      "id" : "m3",
+      "message" : "Fooooooooo",
+      "sender" : "Fabiano"
+    },
+    "m4": {
+      "id" : "m4",
+      "message" : "Fooooooooo",
+      "sender" : "Giorgio"
+    },
+    "m5": {
+      "id" : "m5",
+      "message" : "Fooooooooo",
+      "sender" : "Thomas"
+    }
+  },
+  "users": {
+    "u1": {
+      "id": "u1",
+      "email": "foo@bar.it",
+      "name": "Foo"
+    }
+  }
+}
