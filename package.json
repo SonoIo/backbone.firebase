@@ -1,9 +1,11 @@
 {
   "name": "backbone.firebase",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connect Firebase 4 with Backbone.js",
   "main": "index.js",
   "scripts": {
+    "doc": "documentation build index.js -f md -o doc/reference.md",
+    "doc-html": "documentation build index.js -f html -o doc/reference",
     "test": "mocha test/test.js"
   },
   "repository": {
@@ -23,6 +25,7 @@
   "eve-language": "es6",
   "eve-version": "2.0.0",
   "devDependencies": {
+    "documentation": "^5.3.3",
     "node-eve": "^2.4.0"
   }
 }
