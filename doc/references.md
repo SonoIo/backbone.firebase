@@ -3,9 +3,23 @@
 ### Table of Contents
 
 -   [FirebaseCollection](#firebasecollection)
+    -   [getReference](#getreference)
+    -   [query](#query)
+    -   [fetch](#fetch)
+    -   [loadMore](#loadmore)
     -   [releaseFirebase](#releasefirebase)
     -   [bindFirebase](#bindfirebase)
     -   [create](#create)
+    -   [createNewKey](#createnewkey)
+-   [FirebaseModel](#firebasemodel)
+    -   [getReference](#getreference-1)
+    -   [fetch](#fetch-1)
+    -   [releaseFirebase](#releasefirebase-1)
+    -   [bindFirebase](#bindfirebase-1)
+    -   [addChildCollection](#addchildcollection)
+    -   [removeChildCollection](#removechildcollection)
+    -   [addChildModel](#addchildmodel)
+    -   [removeChildModel](#removechildmodel)
 -   [sync](#sync)
 
 ## FirebaseCollection
@@ -19,7 +33,42 @@ Firebase Backbone collection
 -   `models` **\[Backbone.Model]** Array of models
 -   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options object
     -   `options.firebase` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Instance of firebase app if different from default
-    -   `options.params` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Extra data useful to create firebase path. Ex. `/parent/child/${this.params.childId}/`.
+    -   `options.params` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Extra data useful to create firebase path. i.e. `/parent/child/${this.params.childId}/`.
+    -   `options.created` **Bool?** Adds a created field to every created model with the timestamp of the server
+    -   `options.modified` **Bool?** Adds a modified field to every saved model with the timestamp of the server
+
+### getReference
+
+Returns the Firebase reference to the database path described by this.url
+
+Returns **Reference** Firebase reference to the database path
+
+### query
+
+Alias of getReference() to be used when fetching
+
+Returns **Reference** Firebase reference to the database path
+
+### fetch
+
+Fetch models from Firebase and bind database events
+
+**Parameters**
+
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Options object
+    -   `options.parse` **Bool?** [true] - Should or not call the parse method
+    -   `options.query` **Reference?** [this.query()] - Query reference to execute
+    -   `options.pageSize` **Int?** Size of the page, to used only with paginated query
+    -   `options.order` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** [asc] - Order of the items
+
+### loadMore
+
+Load another set of data from Firebase
+
+**Parameters**
+
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** \-
+-   `done` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** \-
 
 ### releaseFirebase
 
@@ -56,6 +105,100 @@ it will be added through child_added event listener.
 -   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Backbone options object passed to the Model.save() method
 
 Returns **Backbone.Model** Model created
+
+### createNewKey
+
+Retrieve a new Firebase key
+
+Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** New Firebase generated key
+
+## FirebaseModel
+
+**Extends Backbone.Collection**
+
+Firebase Backbone model
+
+**Parameters**
+
+-   `attrs` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Attributes of the model
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options object
+    -   `options.firebase` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Instance of firebase app if different from default
+    -   `options.params` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Extra data useful to create firebase path. i.e. `/parent/child/${this.params.childId}/`.
+    -   `options.created` **Bool?** Adds a created field to every created model with the timestamp of the server
+    -   `options.modified` **Bool?** Adds a modified field to every saved model with the timestamp of the server
+
+### getReference
+
+Returns the Firebase reference to the database path described by this.url
+
+Returns **Reference** Firebase reference to the database path
+
+### fetch
+
+Fetch model from Firebase and bind database events
+
+**Parameters**
+
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Options object
+    -   `options.parse` **Bool?** [true] - Should or not call the parse method
+
+### releaseFirebase
+
+Close every db listener, remember to call it when you are done with a
+collection. Calls every inner model .releaseFirebase() to ensure
+no event handler is attached.
+
+Returns **[FirebaseModel](#firebasemodel)** Return self
+
+### bindFirebase
+
+Connect collection to the Firebase db. this.db_ref must be set.
+
+Returns **[FirebaseModel](#firebasemodel)** Return self
+
+### addChildCollection
+
+Adds a child collection to the model. It will mantain the
+releaseFirebase chain.
+
+**Parameters**
+
+-   `name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the collection
+-   `childCollection` **[FirebaseCollection](#firebasecollection)** FirebaseCollection Instance
+
+Returns **[FirebaseModel](#firebasemodel)** Return self
+
+### removeChildCollection
+
+Remove a child collection
+
+**Parameters**
+
+-   `name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the collection
+
+Returns **[FirebaseModel](#firebasemodel)** Return self
+
+### addChildModel
+
+Adds a child model. It will mantain the releaseFirebase chain.
+
+**Parameters**
+
+-   `name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the collection
+-   `childModel`  
+-   `childCollection` **[FirebaseCollection](#firebasecollection)** FirebaseCollection Instance
+
+Returns **[FirebaseModel](#firebasemodel)** Return self
+
+### removeChildModel
+
+Remove a child model
+
+**Parameters**
+
+-   `name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the model
+
+Returns **[FirebaseModel](#firebasemodel)** Return self
 
 ## sync
 

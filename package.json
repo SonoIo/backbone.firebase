@@ -1,11 +1,11 @@
 {
   "name": "backbone.firebase",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Connect Firebase 4 with Backbone.js",
   "main": "index.js",
   "scripts": {
-    "doc": "documentation build index.js -f md -o doc/reference.md",
-    "doc-html": "documentation build index.js -f html -o doc/reference",
+    "doc": "documentation build index.js -f md -o doc/references.md",
+    "doc-html": "documentation build index.js -f html -o doc/references",
     "test": "mocha test/test.js"
   },
   "repository": {
