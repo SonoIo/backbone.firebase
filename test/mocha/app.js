@@ -1,17 +1,17 @@
 const assert = chai.assert;
 const config = {
-	apiKey: "<API-KEY>",
-	authDomain: "<PROJECT.ID>.firebaseapp.com",
-	databaseURL: "https://<PROJECT.ID>.firebaseio.com",
-	storageBucket: "<PROJECT.ID>.appspot.com"
+	apiKey: "AIzaSyAYU6Tg5plnKCPXGSMz-QsYY9aKTNoOXso",
+	authDomain: "bfiretest-a24f0.firebaseapp.com",
+	databaseURL: "https://bfiretest-a24f0.firebaseio.com",
+	storageBucket: "bfiretest-a24f0.appspot.com"
 };
 
 import * as firebase from 'firebase';
-import FirebaseCollection from '../../lib/collections/FirebaseCollection';
-import Messages from '../../lib/collections/Messages';
-import Message from '../../lib/models/Message';
-import Attachment from '../../lib/models/Attachment';
-import User from '../../lib/models/User';
+import FirebaseCollection from '../../lib/FirebaseCollection';
+import Messages from './Messages';
+import Message from './Message';
+import Attachment from './Attachment';
+import User from './User';
 
 const fetch = (model, done) => {
 	model.fetch({
@@ -62,6 +62,7 @@ describe('Firebase', () => {
 			success: () => {
 				assert.lengthOf(messages, 1, 'messages.length should be equal to 1');
 				assert.equal(messages.at(0).id, newMessage.id, 'messages[0].id should be equal to ' + newMessage.id);
+				messages.releaseFirebase();
 				done();
 			},
 			error: (model, err, options) => {
@@ -155,7 +156,7 @@ describe('Firebase', () => {
 		const messages = new Messages();
 		// First fetch
 		messages.fetch({
-			query: messages.query(),
+			query: messages.query().orderByKey(),
 			pageSize: 3,
 			success: () => {
 				assert.lengthOf(messages, 3, 'messages.length should be equals to 2');
@@ -182,7 +183,7 @@ describe('Firebase', () => {
 		const messages = new Messages();
 		// First fetch
 		messages.fetch({
-			query: messages.query(),
+			query: messages.query().orderByKey(),
 			pageSize: 2,
 			success: () => {
 				assert.lengthOf(messages, 2, 'messages.length should be equals to 2');
@@ -216,7 +217,7 @@ describe('Firebase', () => {
 		const messages = new Messages();
 		// First fetch
 		messages.fetch({
-			query: messages.query(),
+			query: messages.query().orderByKey(),
 			pageSize: 2,
 			order: Messages.DESC,
 			success: () => {
@@ -285,6 +286,106 @@ describe('Firebase', () => {
 				});
 			});
 		});
+	});
+
+	it('should update an object attribute', (done) => {
+		const messages = new Messages();
+		const originalMessageData = {
+			id: 'mX',
+			sender: 'Sender 1',
+			message: {
+				title: 'Foo',
+				message: 'Bar'
+			}
+		};
+		let updateMessage;
+		const originalMessage = messages.create(originalMessageData, {
+			success: () => {
+				originalMessage.fetch({
+					success: () => {
+						assert.isDefined(originalMessage);
+						assert.isDefined(originalMessage.id);
+
+						updateMessage = new Message({ id: originalMessage.id });
+						const updateMessageData = {
+							message: {
+								title: 'Edited title',
+								message: 'Edited message'
+							}
+						};
+
+						updateMessage.save(updateMessageData, {
+							error: (model, err) => done(err)
+						});
+
+						originalMessage.on('change', (changedModel) => {
+							const testMessageData = {
+								sender: 'Sender 1',
+								message: {
+									title: 'Edited title',
+									message: 'Edited message'
+								}
+							};
+							assert.deepInclude(originalMessage.toJSON(), testMessageData);
+							releaseFirebaseAndDone();
+						});
+					}
+				});
+			},
+			error: (model, err, options) => done(err)
+		});
+
+		function releaseFirebaseAndDone(err) {
+			originalMessage.releaseFirebase();
+			updateMessage.releaseFirebase();
+			messages.releaseFirebase();
+			return done(err);
+		}
+	});
+
+	it('should remove an object attribute', (done) => {
+		const messages = new Messages();
+		const originalMessageData = {
+			sender: 'Sender 1',
+			message: {
+				title: 'Foo',
+				message: 'Bar'
+			}
+		};
+		let updateMessage;
+		const originalMessage = messages.create(originalMessageData, {
+			success: () => {
+				originalMessage.fetch({
+					success: () => {
+						assert.isDefined(originalMessage);
+						assert.isDefined(originalMessage.id);
+						updateMessage = new Message({ id: originalMessage.id });
+						const updateMessageData = {
+							message: null
+						};
+						updateMessage.save(updateMessageData, {
+							error: (model, err) => done(err)
+						});
+
+						originalMessage.on('change', (changedModel) => {
+							const testMessageData = {
+								sender: 'Sender 1'
+							};
+							assert.deepInclude(originalMessage.toJSON(), testMessageData);
+							releaseFirebaseAndDone();
+						});
+					}
+				});
+			},
+			error: (model, err, options) => done(err)
+		});
+
+		function releaseFirebaseAndDone(err) {
+			originalMessage.releaseFirebase();
+			updateMessage.releaseFirebase();
+			messages.releaseFirebase();
+			return done(err);
+		}
 	});
 
 });

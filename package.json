@@ -1,12 +1,12 @@
 {
   "name": "backbone.firebase",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Connect Firebase 4 with Backbone.js",
   "main": "index.js",
   "scripts": {
     "doc": "documentation build index.js -f md -o doc/references.md",
     "doc-html": "documentation build index.js -f html -o doc/references",
-    "test": "mocha test/test.js"
+    "test": "eve test mocha"
   },
   "repository": {
     "type": "git",
@@ -22,10 +22,23 @@
     "url": "https://github.com/SonoIo/backbone.firebase/issues"
   },
   "homepage": "https://github.com/SonoIo/backbone.firebase#readme",
+  "browserify-shim": [],
   "eve-language": "es6",
-  "eve-version": "2.0.0",
+  "eve-version": "2.5.8",
   "devDependencies": {
     "documentation": "^5.3.3",
-    "node-eve": "^2.4.0"
-  }
+    "firebase": "^4.11.0",
+    "node-eve": "^2.5.8"
+  },
+  "eve-build-date": "2017-4-26",
+  "eve-babel-plugins": {
+    "builtin-extend": {
+      "globals": [
+        "Error",
+        "Worker"
+      ],
+      "approximate": false
+    }
+  },
+  "dependencies": {}
 }
