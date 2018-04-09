@@ -388,4 +388,29 @@ describe('Firebase', () => {
 		}
 	});
 
+	it('should fetch a model without binding', (done) => {
+		const user = new User({ id: 'u1' });
+		const userEdit = new User({ id: 'u1' });
+		user.fetch({
+			bind: false,
+			success: () => {
+				userEdit.save({ 'email': 'edited@bar.it' }, {
+					success: () => {
+						setTimeout(() => {
+							const testData = {
+								'id': 'u1',
+								'email': 'foo@bar.it',
+								'name': 'Foo'
+							};
+							assert.deepEqual(user.toJSON(), testData, 'User fetched is not equals to unbinded user version');
+							return done();
+						}, 2000);
+					},
+					error: (model, err) => done(err)
+				});
+			},
+			error: (model, err, options) => done(err)
+		});
+	});
+
 });
