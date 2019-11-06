@@ -1,6 +1,6 @@
 {
   "name": "backbone.firebase",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Connect Firebase 5 with Backbone.js",
   "main": "index.js",
   "scripts": {
