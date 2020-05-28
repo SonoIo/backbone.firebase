@@ -1,6 +1,6 @@
 {
     "name": "backbone.firebase",
-    "version": "2.0.1",
+    "version": "2.0.4",
     "description": "Connect Firebase 4 with Backbone.js",
     "author": "Matteo Baggio & Michele Belluco",
     "license": "ISC",
